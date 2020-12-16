@@ -1,4 +1,4 @@
-- hosts: 192.168.1.8
+- hosts: hostname
   tasks:
     - name: make docker repo
       yum_repository:
@@ -10,7 +10,7 @@
     - name: install docker
       command:
         cmd: "yum install docker-ce --nobest -y"
-      become_user: yes
+      become: yes
 
     - name: start docker service
       service: 
@@ -42,10 +42,10 @@
     
     - name: copy webpage to target node
       copy:
-        src: /root/ansible_tasks/task1/index.html
+        src: index.html
         dest: /root/index.html        
 
     - name: copy webpage from host to container
       command:
-        cmd: "sudo docker cp /root/index.html myhttpd:/usr/local/apache2/htdocs/index.html"
+        cmd: "docker cp /root/index.html myhttpd:/usr/local/apache2/htdocs/index.html"
       become: yes
