@@ -15,6 +15,6 @@ In place of __hostname__ put your target node groups ip/hostname
 
 ### Areas of Failure
 
-Most problems arises due to improper invertory check your inventory and target nodes.
-This repo might only work on __rhel/centos 8__. 
-Check this [repo](https://github.com/mykg/docker-installtion-ansible) for rhel/centos 7 
+* Most problems arises due to improper invertory check your inventory and target nodes.
+* This repo might only work on __rhel/centos 8__. 
+* Check this [repo](https://github.com/mykg/docker-installtion-ansible) for rhel/centos 7 
