@@ -1,0 +1,51 @@
+- hosts: 192.168.1.8
+  tasks:
+    - name: make docker repo
+      yum_repository:
+        baseurl: https://download.docker.com/linux/centos/7/x86_64/stable/
+        gpgcheck: no
+        name: "docker"
+        description: "docker"
+
+    - name: install docker
+      command:
+        cmd: "yum install docker-ce --nobest -y"
+      become_user: yes
+
+    - name: start docker service
+      service: 
+        name: "docker"
+        state: started
+        enabled: yes
+
+    - name: install python36
+      yum:
+        name: python36
+        state: present
+
+    - name: pip install docker
+      pip:
+        name: docker
+
+    - name: pull docker image (httpd)
+      docker_image:
+        name: httpd
+
+    - name: start httpd container
+      docker_container:
+        name: myhttpd
+        image: httpd
+        state: started
+        recreate: yes
+        ports:
+          - "81:80"
+    
+    - name: copy webpage to target node
+      copy:
+        src: /root/ansible_tasks/task1/index.html
+        dest: /root/index.html        
+
+    - name: copy webpage from host to container
+      command:
+        cmd: "sudo docker cp /root/index.html myhttpd:/usr/local/apache2/htdocs/index.html"
+      become: yes
